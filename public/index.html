@@ -3,6 +3,12 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
+<meta name="theme-color" content="#D85A30"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+<meta name="apple-mobile-web-app-title" content="Dapur"/>
+<link rel="manifest" href="/manifest.json"/>
+<link rel="apple-touch-icon" href="/icon-192.png"/>
 <title>Kafe Nusantara — Dashboard Koki</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
@@ -16,20 +22,16 @@
 }
 *{box-sizing:border-box;margin:0;padding:0;}
 body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:100vh;display:flex;overflow:hidden;}
-a{color:inherit;text-decoration:none;}
 
-/* SIDEBAR */
 .sidebar{width:60px;background:var(--surface);border-right:1px solid var(--border);display:flex;flex-direction:column;align-items:center;padding:16px 0;gap:4px;z-index:10;flex-shrink:0;}
-.logo{font-family:var(--serif);font-size:20px;color:var(--accent);margin-bottom:16px;line-height:1;}
-.sb-btn{width:42px;height:42px;border-radius:var(--radius);border:none;background:transparent;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--muted);transition:all 0.2s;position:relative;font-size:18px;}
+.logo{font-family:var(--serif);font-size:22px;color:var(--accent);margin-bottom:16px;}
+.sb-btn{width:42px;height:42px;border-radius:var(--radius);border:none;background:transparent;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--muted);transition:all 0.2s;position:relative;font-size:20px;}
 .sb-btn:hover{background:var(--surface2);color:var(--text);}
 .sb-btn.active{background:var(--accent);color:#fff;}
 .pip{position:absolute;top:7px;right:7px;width:7px;height:7px;border-radius:50%;background:var(--danger);border:1.5px solid var(--surface);display:none;}
 .pip.show{display:block;animation:pipPulse 1.4s infinite;}
-@keyframes pipPulse{0%,100%{transform:scale(1);}50%{transform:scale(1.4);}}
-.sb-icon{font-size:18px;}
+@keyframes pipPulse{0%,100%{transform:scale(1);}50%{transform:scale(1.5);}}
 
-/* MAIN */
 .main{flex:1;display:flex;flex-direction:column;min-width:0;overflow:hidden;}
 .topbar{height:56px;background:var(--surface);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 20px;flex-shrink:0;}
 .tb-left{display:flex;align-items:center;gap:12px;}
@@ -40,16 +42,18 @@ a{color:inherit;text-decoration:none;}
 .chip-info{background:rgba(83,74,183,0.18);color:#AFA9EC;}
 .tb-right{display:flex;align-items:center;gap:12px;font-size:12px;color:var(--muted);}
 .sound-toggle{display:flex;align-items:center;gap:6px;cursor:pointer;}
-.sound-toggle input{accent-color:var(--accent);cursor:pointer;}
-.chef-name{font-weight:500;color:var(--text);}
+.sound-toggle input{accent-color:var(--accent);}
 .online-dot{width:7px;height:7px;border-radius:50%;background:var(--success);display:inline-block;margin-right:4px;}
 
-/* CONTENT */
 .content{flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:12px;}
 .page{display:none;flex-direction:column;gap:12px;}
 .page.active{display:flex;}
 
-/* NOTIF STACK */
+/* install banner */
+.install-banner{background:rgba(83,74,183,0.2);border:1px solid rgba(83,74,183,0.4);border-radius:var(--radius);padding:10px 14px;display:flex;align-items:center;justify-content:space-between;gap:10px;}
+.install-txt{font-size:13px;color:#AFA9EC;}
+.install-btn{padding:6px 14px;background:var(--accent2);color:#fff;border:none;border-radius:8px;font-size:12px;font-weight:500;cursor:pointer;font-family:var(--font);white-space:nowrap;}
+
 .notif-stack{display:flex;flex-direction:column;gap:6px;}
 .notif-item{background:rgba(216,90,48,0.12);border:1px solid rgba(216,90,48,0.35);border-radius:var(--radius);padding:10px 14px;display:flex;align-items:center;gap:10px;animation:slideDown 0.3s ease;}
 @keyframes slideDown{from{opacity:0;transform:translateY(-8px);}to{opacity:1;transform:translateY(0);}}
@@ -57,25 +61,22 @@ a{color:inherit;text-decoration:none;}
 @keyframes blink{0%,100%{opacity:1;}50%{opacity:0.2;}}
 .notif-txt{font-size:13px;color:#F5C4B3;flex:1;font-weight:500;}
 .notif-time{font-size:11px;color:var(--muted);}
-.notif-x{background:none;border:none;cursor:pointer;color:var(--muted);font-size:17px;padding:0 2px;line-height:1;}
+.notif-x{background:none;border:none;cursor:pointer;color:var(--muted);font-size:17px;padding:0 2px;}
 .notif-x:hover{color:var(--text);}
 
-/* STATS */
 .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;}
 .stat{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:14px;text-align:center;}
-.stat-n{font-size:28px;font-weight:600;color:var(--text);}
+.stat-n{font-size:28px;font-weight:600;}
 .stat-l{font-size:11px;color:var(--muted);margin-top:2px;}
 
-/* DIVIDER */
 .div-row{display:flex;align-items:center;gap:8px;font-size:11px;font-weight:500;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;}
 .div-row::before,.div-row::after{content:'';flex:1;height:1px;background:var(--border);}
 
-/* ORDER CARDS */
 .order-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:14px;transition:border-color 0.3s;}
-.order-card.is-new{border-color:var(--accent);animation:newCard 0.5s ease;}
+.order-card.is-new{border-color:var(--accent);animation:newCard 0.6s ease;}
 @keyframes newCard{0%,100%{border-color:var(--accent);}50%{border-color:#F0997B;box-shadow:0 0 0 3px rgba(216,90,48,0.15);}}
 .oc-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;}
-.oc-id{font-size:13px;font-weight:600;color:var(--text);}
+.oc-id{font-size:13px;font-weight:600;}
 .oc-meta{font-size:12px;color:var(--muted);margin-bottom:6px;}
 .oc-items{font-size:13px;line-height:1.7;margin-bottom:8px;}
 .oc-notes{font-size:12px;color:var(--muted);font-style:italic;margin-bottom:10px;padding:6px 10px;background:var(--surface2);border-radius:6px;border-left:2px solid var(--border);}
@@ -88,21 +89,17 @@ a{color:inherit;text-decoration:none;}
 .btn-green:hover{background:rgba(29,158,117,0.28);}
 .btn-red{background:rgba(226,75,74,0.12);color:var(--danger);border-color:transparent;font-size:11px;}
 .btn-red:hover{background:rgba(226,75,74,0.22);}
-.btn-purple{background:var(--accent2);color:#fff;border-color:var(--accent2);}
-.btn-purple:hover{background:#3C3489;}
 .empty-msg{font-size:13px;color:var(--muted);padding:8px 0;}
 
-/* MENU PAGE */
 .form-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:16px;display:flex;flex-direction:column;gap:10px;}
 .form-row{display:flex;gap:8px;}
 .form-row>*{flex:1;}
 label{font-size:12px;color:var(--muted);display:block;margin-bottom:4px;}
-input,select,textarea{width:100%;padding:8px 12px;font-size:13px;border-radius:8px;border:1px solid var(--border);background:var(--surface2);color:var(--text);font-family:var(--font);outline:none;transition:border-color 0.15s;}
-input:focus,select:focus,textarea:focus{border-color:var(--accent2);}
+input,select{width:100%;padding:8px 12px;font-size:13px;border-radius:8px;border:1px solid var(--border);background:var(--surface2);color:var(--text);font-family:var(--font);outline:none;transition:border-color 0.15s;}
+input:focus,select:focus{border-color:var(--accent2);}
 select option{background:var(--surface);}
-textarea{resize:none;}
 .menu-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
-.mc{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:12px;display:flex;flex-direction:column;gap:4px;transition:opacity 0.2s;}
+.mc{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:12px;display:flex;flex-direction:column;gap:4px;}
 .mc.off{opacity:0.45;}
 .mc-cat{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;}
 .mc-name{font-size:14px;font-weight:500;}
@@ -117,7 +114,6 @@ textarea{resize:none;}
 .toggle.off::after{left:2px;}
 .mc-lbl{font-size:11px;color:var(--muted);}
 
-/* QR PAGE */
 .qr-intro{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:16px;}
 .qr-intro h3{font-size:14px;font-weight:500;margin-bottom:6px;}
 .qr-intro p{font-size:12px;color:var(--muted);line-height:1.6;}
@@ -125,13 +121,12 @@ textarea{resize:none;}
 .qr-item{background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius);padding:14px;text-align:center;cursor:pointer;transition:border-color 0.15s;min-width:130px;}
 .qr-item:hover{border-color:var(--accent2);}
 .qr-item img{width:100px;height:100px;border-radius:6px;}
-.qr-lbl{font-size:13px;font-weight:500;margin-top:8px;}
+.qr-lbl{font-size:13px;font-weight:500;margin-top:8px;color:var(--text);}
 .qr-url{font-size:10px;color:var(--muted);margin-top:2px;word-break:break-all;}
 .qr-loading{width:100px;height:100px;background:var(--border);border-radius:6px;display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:11px;}
 .qr-actions{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap;}
 .info-box{background:var(--surface2);border-radius:8px;padding:10px 14px;font-size:12px;color:var(--muted);border-left:2px solid var(--accent2);}
 
-/* SCROLLBAR */
 ::-webkit-scrollbar{width:5px;}
 ::-webkit-scrollbar-track{background:transparent;}
 ::-webkit-scrollbar-thumb{background:var(--border);border-radius:99px;}
@@ -139,34 +134,39 @@ textarea{resize:none;}
 </head>
 <body>
 
-<nav class="sidebar" aria-label="Menu navigasi">
+<nav class="sidebar">
   <div class="logo">☕</div>
-  <button class="sb-btn active" id="sb-orders" onclick="nav('orders',this)" title="Pesanan masuk" aria-label="Pesanan masuk">
-    🔔<span class="pip" id="pip" aria-hidden="true"></span>
+  <button class="sb-btn active" id="sb-orders" onclick="nav('orders',this)" title="Pesanan masuk">
+    🔔<span class="pip" id="pip"></span>
   </button>
-  <button class="sb-btn" id="sb-menu" onclick="nav('menu',this)" title="Kelola menu" aria-label="Kelola menu">🍽</button>
-  <button class="sb-btn" id="sb-qr" onclick="nav('qr',this)" title="QR Code meja" aria-label="QR code meja">📱</button>
+  <button class="sb-btn" id="sb-menu" onclick="nav('menu',this)" title="Kelola menu">🍽</button>
+  <button class="sb-btn" id="sb-qr" onclick="nav('qr',this)" title="QR Code meja">📱</button>
 </nav>
 
 <div class="main">
   <header class="topbar">
     <div class="tb-left">
       <span class="tb-title" id="page-title">Pesanan masuk</span>
-      <span class="chip chip-warn" id="antri-chip">— antri</span>
+      <span class="chip chip-warn" id="antri-chip">0 antri</span>
     </div>
     <div class="tb-right">
       <label class="sound-toggle" title="Suara notifikasi">
-        🔔 <input type="checkbox" id="snd" checked aria-label="Suara notifikasi">
+        🔔 <input type="checkbox" id="snd" checked>
       </label>
-      <span class="chef-name">Koki: Budi</span>
-      <span><span class="online-dot" aria-hidden="true"></span>Online</span>
+      <span style="color:var(--text);font-weight:500;">Koki: Budi</span>
+      <span><span class="online-dot"></span>Online</span>
     </div>
   </header>
 
-  <main class="content" id="content" aria-live="polite">
+  <main class="content" id="content">
 
-    <!-- PESANAN -->
-    <section class="page active" id="page-orders" aria-label="Daftar pesanan">
+    <section class="page active" id="page-orders">
+      <div id="install-wrap" style="display:none;">
+        <div class="install-banner">
+          <span class="install-txt">📲 Install aplikasi ini di HP/tablet kamu agar lebih mudah dipakai!</span>
+          <button class="install-btn" id="install-btn" onclick="installPWA()">Install</button>
+        </div>
+      </div>
       <div class="notif-stack" id="notif-stack"></div>
       <div class="stats">
         <div class="stat"><div class="stat-n" id="s-antri">0</div><div class="stat-l">Antri</div></div>
@@ -179,8 +179,7 @@ textarea{resize:none;}
       <div id="list-masak"></div>
     </section>
 
-    <!-- MENU -->
-    <section class="page" id="page-menu" aria-label="Kelola menu">
+    <section class="page" id="page-menu">
       <div class="form-card">
         <div style="font-size:14px;font-weight:500;">Tambah item menu baru</div>
         <div class="form-row">
@@ -199,263 +198,179 @@ textarea{resize:none;}
       <div class="menu-grid" id="menu-grid"></div>
     </section>
 
-    <!-- QR -->
-    <section class="page" id="page-qr" aria-label="QR code meja">
+    <section class="page" id="page-qr">
       <div class="qr-intro">
         <h3>QR Code per meja</h3>
-        <p>Cetak dan tempelkan QR di setiap meja. Customer scan → langsung ke halaman menu. Tidak perlu install apapun. Nomor meja terdeteksi otomatis.</p>
+        <p>Cetak dan tempelkan QR di setiap meja. Customer scan → langsung ke halaman menu. Klik QR untuk download dan cetak.</p>
         <div class="qr-grid" id="qr-grid"></div>
         <div class="qr-actions">
           <button class="btn btn-orange" onclick="addTable()">+ Tambah meja</button>
           <button class="btn btn-red" onclick="removeTable()">🗑 Hapus meja terakhir</button>
         </div>
       </div>
-      <div class="info-box">💡 Klik QR untuk download gambarnya dan cetak untuk ditempel di meja.</div>
+      <div class="info-box">💡 QR otomatis menggunakan URL yang benar. Klik untuk download PNG dan cetak.</div>
     </section>
 
   </main>
 </div>
 
 <script>
-// ── State ─────────────────────────────────────────────────────────
-let orders = [], menuItems = [], tables = [], doneCount = 0;
-let audioCtx = null;
+let orders=[], menuItems=[], tables=[], doneCount=0;
+let audioCtx=null, deferredInstall=null;
 
-// ── Init ──────────────────────────────────────────────────────────
-async function init() {
+// PWA install prompt
+window.addEventListener('beforeinstallprompt', e => {
+  e.preventDefault(); deferredInstall = e;
+  document.getElementById('install-wrap').style.display='block';
+});
+function installPWA(){
+  if(!deferredInstall) return;
+  deferredInstall.prompt();
+  deferredInstall.userChoice.then(()=>{ document.getElementById('install-wrap').style.display='none'; deferredInstall=null; });
+}
+window.addEventListener('appinstalled',()=>{ document.getElementById('install-wrap').style.display='none'; });
+
+async function init(){
   await Promise.all([loadOrders(), loadMenu(), loadTables()]);
   startSSE();
 }
 
-async function api(path, method='GET', body=null) {
-  const opts = { method, headers:{'Content-Type':'application/json'} };
-  if(body) opts.body = JSON.stringify(body);
-  const r = await fetch(path, opts);
-  return r.json();
+async function api(path, method='GET', body=null){
+  const opts={method,headers:{'Content-Type':'application/json'}};
+  if(body) opts.body=JSON.stringify(body);
+  const r=await fetch(path,opts); return r.json();
 }
 
-async function loadOrders() {
-  const d = await api('/api/orders');
-  orders = d.orders; doneCount = d.doneCount;
-  renderOrders();
-}
-async function loadMenu() {
-  menuItems = await api('/api/menu');
-  renderMenu();
-}
-async function loadTables() {
-  tables = await api('/api/tables');
+async function loadOrders(){const d=await api('/api/orders');orders=d.orders;doneCount=d.doneCount;renderOrders();}
+async function loadMenu(){menuItems=await api('/api/menu');renderMenu();}
+async function loadTables(){tables=await api('/api/tables');}
+
+function startSSE(){
+  const es=new EventSource('/api/events');
+  es.addEventListener('new-order',e=>{const o=JSON.parse(e.data);orders.unshift(o);renderOrders();pushNotif('Pesanan baru dari '+o.table+' — '+truncate(formatItems(o.items),50));});
+  es.addEventListener('order-update',e=>{const o=JSON.parse(e.data);const i=orders.findIndex(x=>x.id===o.id);if(i>=0)orders[i]=o;renderOrders();});
+  es.addEventListener('order-done',e=>{const d=JSON.parse(e.data);orders=orders.filter(o=>o.id!==d.id);doneCount=d.doneCount;renderOrders();});
+  es.addEventListener('order-cancel',e=>{const d=JSON.parse(e.data);orders=orders.filter(o=>o.id!==d.id);renderOrders();});
+  es.addEventListener('menu-update',e=>{menuItems=JSON.parse(e.data);renderMenu();});
+  es.onerror=()=>setTimeout(startSSE,3000);
 }
 
-// ── SSE (real-time) ───────────────────────────────────────────────
-function startSSE() {
-  const es = new EventSource('/api/events');
-  es.addEventListener('new-order', e => {
-    const o = JSON.parse(e.data);
-    orders.unshift(o);
-    renderOrders();
-    pushNotif('Pesanan baru dari ' + o.table + ' — ' + truncate(formatItems(o.items), 50));
-  });
-  es.addEventListener('order-update', e => {
-    const o = JSON.parse(e.data);
-    const idx = orders.findIndex(x => x.id === o.id);
-    if(idx>=0) orders[idx] = o;
-    renderOrders();
-  });
-  es.addEventListener('order-done', e => {
-    const d = JSON.parse(e.data);
-    orders = orders.filter(o => o.id !== d.id);
-    doneCount = d.doneCount;
-    renderOrders();
-  });
-  es.addEventListener('order-cancel', e => {
-    const d = JSON.parse(e.data);
-    orders = orders.filter(o => o.id !== d.id);
-    renderOrders();
-  });
-  es.addEventListener('menu-update', e => {
-    menuItems = JSON.parse(e.data);
-    renderMenu();
-  });
-  es.onerror = () => setTimeout(startSSE, 3000);
-}
-
-// ── Navigation ────────────────────────────────────────────────────
-function nav(page, btn) {
+function nav(page,btn){
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
   document.querySelectorAll('.sb-btn').forEach(b=>b.classList.remove('active'));
   document.getElementById('page-'+page).classList.add('active');
   btn.classList.add('active');
   const titles={orders:'Pesanan masuk',menu:'Kelola menu',qr:'QR Code meja'};
-  document.getElementById('page-title').textContent = titles[page];
-  document.getElementById('antri-chip').style.display = page==='orders' ? '' : 'none';
+  document.getElementById('page-title').textContent=titles[page];
+  document.getElementById('antri-chip').style.display=page==='orders'?'':'none';
   if(page==='qr') renderQR();
   document.getElementById('pip').classList.remove('show');
 }
 
-// ── Notifications ─────────────────────────────────────────────────
-function pushNotif(msg) {
+function pushNotif(msg){
   playSound();
-  const stack = document.getElementById('notif-stack');
-  const div = document.createElement('div');
-  div.className = 'notif-item';
-  const t = new Date().toLocaleTimeString('id-ID',{hour:'2-digit',minute:'2-digit'});
-  div.innerHTML = `<div class="notif-dot"></div><span class="notif-txt">🔔 ${msg}</span><span class="notif-time">${t}</span><button class="notif-x" onclick="this.parentElement.remove();checkPip();" aria-label="Tutup notifikasi">×</button>`;
-  stack.insertBefore(div, stack.firstChild);
+  const stack=document.getElementById('notif-stack');
+  const div=document.createElement('div');
+  div.className='notif-item';
+  const t=new Date().toLocaleTimeString('id-ID',{hour:'2-digit',minute:'2-digit'});
+  div.innerHTML=`<div class="notif-dot"></div><span class="notif-txt">🔔 ${msg}</span><span class="notif-time">${t}</span><button class="notif-x" onclick="this.parentElement.remove();checkPip()">×</button>`;
+  stack.insertBefore(div,stack.firstChild);
   document.getElementById('pip').classList.add('show');
 }
-function checkPip() {
-  if(!document.getElementById('notif-stack').children.length)
-    document.getElementById('pip').classList.remove('show');
-}
+function checkPip(){if(!document.getElementById('notif-stack').children.length)document.getElementById('pip').classList.remove('show');}
 
-// ── Sound ─────────────────────────────────────────────────────────
-function playSound() {
+function playSound(){
   if(!document.getElementById('snd').checked) return;
-  try {
-    if(!audioCtx) audioCtx = new(window.AudioContext||window.webkitAudioContext)();
-    const t = audioCtx.currentTime;
+  try{
+    if(!audioCtx) audioCtx=new(window.AudioContext||window.webkitAudioContext)();
+    const t=audioCtx.currentTime;
     [[880,0],[1047,0.13],[1319,0.26],[1047,0.4],[1319,0.53]].forEach(([freq,when])=>{
-      const o=audioCtx.createOscillator(), g=audioCtx.createGain();
-      o.connect(g); g.connect(audioCtx.destination);
-      o.type='sine'; o.frequency.setValueAtTime(freq, t+when);
-      g.gain.setValueAtTime(0,t+when);
-      g.gain.linearRampToValueAtTime(0.18,t+when+0.02);
-      g.gain.linearRampToValueAtTime(0,t+when+0.11);
-      o.start(t+when); o.stop(t+when+0.12);
+      const o=audioCtx.createOscillator(),g=audioCtx.createGain();
+      o.connect(g);g.connect(audioCtx.destination);
+      o.type='sine';o.frequency.setValueAtTime(freq,t+when);
+      g.gain.setValueAtTime(0,t+when);g.gain.linearRampToValueAtTime(0.18,t+when+0.02);g.gain.linearRampToValueAtTime(0,t+when+0.11);
+      o.start(t+when);o.stop(t+when+0.12);
     });
-  } catch(e){}
+  }catch(e){}
 }
 
-// ── Orders ────────────────────────────────────────────────────────
-function renderOrders() {
-  const antri = orders.filter(o=>o.status==='antri');
-  const masak = orders.filter(o=>o.status==='masak');
-  document.getElementById('s-antri').textContent = antri.length;
-  document.getElementById('s-masak').textContent = masak.length;
-  document.getElementById('s-done').textContent = doneCount;
-  document.getElementById('antri-chip').textContent = antri.length + ' antri';
-
-  const card = o => {
-    const notes = o.notes ? `<div class="oc-notes">📝 ${o.notes}</div>` : '';
-    const itemsHtml = formatItems(o.items);
-    let actions = '';
-    if(o.status==='antri') {
-      actions = `<button class="btn btn-orange" onclick="setStatus('${o.id}','masak')">🔥 Mulai masak</button>
-                 <button class="btn btn-red" onclick="cancelOrder('${o.id}')">✕ Batalkan</button>`;
-    } else {
-      actions = `<button class="btn btn-green" onclick="setStatus('${o.id}','selesai')">✓ Selesai & sajikan</button>`;
-    }
+function renderOrders(){
+  const antri=orders.filter(o=>o.status==='antri');
+  const masak=orders.filter(o=>o.status==='masak');
+  document.getElementById('s-antri').textContent=antri.length;
+  document.getElementById('s-masak').textContent=masak.length;
+  document.getElementById('s-done').textContent=doneCount;
+  document.getElementById('antri-chip').textContent=antri.length+' antri';
+  const card=o=>{
+    const notes=o.notes?`<div class="oc-notes">📝 ${o.notes}</div>`:'';
+    const itemsHtml=formatItems(o.items);
+    let actions=o.status==='antri'
+      ?`<button class="btn btn-orange" onclick="setStatus('${o.id}','masak')">🔥 Mulai masak</button><button class="btn btn-red" onclick="cancelOrder('${o.id}')">✕ Batalkan</button>`
+      :`<button class="btn btn-green" onclick="setStatus('${o.id}','selesai')">✓ Selesai & sajikan</button>`;
     return `<div class="order-card${o.isNew?' is-new':''}" id="card-${o.id}">
-      <div class="oc-head">
-        <span class="oc-id">#${o.id}</span>
-        <span class="chip ${o.status==='antri'?'chip-warn':'chip-info'}">${o.status==='antri'?'Antri':'Dimasak'}</span>
-      </div>
+      <div class="oc-head"><span class="oc-id">#${o.id}</span><span class="chip ${o.status==='antri'?'chip-warn':'chip-info'}">${o.status==='antri'?'Antri':'Dimasak'}</span></div>
       <div class="oc-meta">🪑 ${o.table} &nbsp;·&nbsp; 🕐 ${o.time}</div>
-      <div class="oc-items">${itemsHtml}</div>
-      ${notes}
-      <div class="oc-actions">${actions}</div>
-    </div>`;
+      <div class="oc-items">${itemsHtml}</div>${notes}
+      <div class="oc-actions">${actions}</div></div>`;
   };
-
-  document.getElementById('list-antri').innerHTML = antri.length
-    ? antri.map(card).join('')
-    : '<p class="empty-msg">Tidak ada pesanan antri.</p>';
-  document.getElementById('list-masak').innerHTML = masak.length
-    ? masak.map(card).join('')
-    : '<p class="empty-msg">Tidak ada yang sedang dimasak.</p>';
+  document.getElementById('list-antri').innerHTML=antri.length?antri.map(card).join(''):'<p class="empty-msg">Tidak ada pesanan antri.</p>';
+  document.getElementById('list-masak').innerHTML=masak.length?masak.map(card).join(''):'<p class="empty-msg">Tidak ada yang sedang dimasak.</p>';
 }
 
-function formatItems(items) {
+function formatItems(items){
   if(!items) return '';
-  if(typeof items === 'string') return items;
-  return items.map(i => `${i.qty}× ${i.name}`).join('<br>');
+  if(typeof items==='string') return items;
+  return items.map(i=>`${i.qty}× ${i.name}`).join('<br>');
 }
 function truncate(s,n){return s.length>n?s.slice(0,n)+'…':s;}
+function fmt(n){return 'Rp '+Number(n).toLocaleString('id-ID');}
 
-async function setStatus(id, status) {
-  await api('/api/orders/'+id, 'PATCH', {status});
-}
-async function cancelOrder(id) {
-  if(!confirm('Batalkan pesanan ini?')) return;
-  await api('/api/orders/'+id, 'DELETE');
-}
+async function setStatus(id,status){await api('/api/orders/'+id,'PATCH',{status});}
+async function cancelOrder(id){if(!confirm('Batalkan pesanan ini?'))return;await api('/api/orders/'+id,'DELETE');}
 
-// ── Menu ──────────────────────────────────────────────────────────
-function renderMenu() {
-  document.getElementById('menu-grid').innerHTML = menuItems.map(m => `
-    <div class="mc${m.active?'':' off'}" id="mc-${m.id}">
-      <div class="mc-cat">${m.cat}</div>
-      <div class="mc-name">${m.name}</div>
+function renderMenu(){
+  document.getElementById('menu-grid').innerHTML=menuItems.map(m=>`
+    <div class="mc${m.active?'':' off'}">
+      <div class="mc-cat">${m.cat}</div><div class="mc-name">${m.name}</div>
       ${m.desc?`<div class="mc-desc">${m.desc}</div>`:''}
       <div class="mc-price">${fmt(m.price)}</div>
       <div class="mc-foot">
-        <button class="toggle ${m.active?'on':'off'}" onclick="toggleItem('${m.id}')" aria-label="${m.active?'Nonaktifkan':'Aktifkan'}"></button>
+        <button class="toggle ${m.active?'on':'off'}" onclick="toggleItem('${m.id}')"></button>
         <span class="mc-lbl">${m.active?'Aktif':'Nonaktif'}</span>
         <button class="btn btn-red" style="margin-left:auto;padding:4px 8px;" onclick="deleteItem('${m.id}')">🗑</button>
-      </div>
-    </div>`).join('');
+      </div></div>`).join('');
 }
-
-async function addItem() {
-  const name = document.getElementById('n-name').value.trim();
-  const price = document.getElementById('n-price').value;
+async function addItem(){
+  const name=document.getElementById('n-name').value.trim();
+  const price=document.getElementById('n-price').value;
   if(!name||!price){alert('Nama dan harga wajib diisi!');return;}
-  const body = {name,price,cat:document.getElementById('n-cat').value,desc:document.getElementById('n-desc').value.trim()};
-  await api('/api/menu','POST',body);
+  await api('/api/menu','POST',{name,price,cat:document.getElementById('n-cat').value,desc:document.getElementById('n-desc').value.trim()});
   ['n-name','n-price','n-desc'].forEach(id=>document.getElementById(id).value='');
 }
-async function toggleItem(id) {
-  const m = menuItems.find(x=>x.id===id);
-  if(m) await api('/api/menu/'+id,'PATCH',{active:!m.active});
-}
-async function deleteItem(id) {
-  if(!confirm('Hapus menu ini?')) return;
-  await api('/api/menu/'+id,'DELETE');
-}
+async function toggleItem(id){const m=menuItems.find(x=>x.id===id);if(m)await api('/api/menu/'+id,'PATCH',{active:!m.active});}
+async function deleteItem(id){if(!confirm('Hapus menu ini?'))return;await api('/api/menu/'+id,'DELETE');}
 
-// ── QR ────────────────────────────────────────────────────────────
-async function renderQR() {
-  tables = await api('/api/tables');
-  const grid = document.getElementById('qr-grid');
-  grid.innerHTML = tables.map(t=>`
+async function renderQR(){
+  tables=await api('/api/tables');
+  const grid=document.getElementById('qr-grid');
+  grid.innerHTML=tables.map(t=>`
     <div class="qr-item" id="qi-${t}" onclick="downloadQR(${t})">
       <div class="qr-loading" id="ql-${t}">Loading…</div>
       <div class="qr-lbl">Meja ${t}</div>
-      <div class="qr-url" id="qu-${t}">-</div>
-    </div>`).join('');
-
-  tables.forEach(async t => {
-    const d = await api('/api/qr/'+t);
-    const wrap = document.getElementById('qi-'+t);
-    const loading = document.getElementById('ql-'+t);
-    if(d.qr) {
-      const img = document.createElement('img');
-      img.src = d.qr; img.alt = 'QR Meja '+t;
-      wrap.replaceChild(img, loading);
-      document.getElementById('qu-'+t).textContent = d.url;
+      <div class="qr-url" id="qu-${t}"></div></div>`).join('');
+  tables.forEach(async t=>{
+    const d=await api('/api/qr/'+t);
+    const wrap=document.getElementById('qi-'+t);
+    if(d.qr){
+      const img=document.createElement('img');img.src=d.qr;img.alt='QR Meja '+t;
+      wrap.replaceChild(img,document.getElementById('ql-'+t));
+      document.getElementById('qu-'+t).textContent=d.url;
     }
   });
 }
-
-async function downloadQR(t) {
-  const d = await api('/api/qr/'+t);
-  if(!d.qr) return;
-  const a = document.createElement('a');
-  a.href = d.qr; a.download = 'QR-Meja-'+t+'.png'; a.click();
-}
-
-async function addTable() {
-  await api('/api/tables','POST');
-  renderQR();
-}
-async function removeTable() {
-  if(!confirm('Hapus meja terakhir?')) return;
-  await api('/api/tables/last','DELETE');
-  renderQR();
-}
-
-function fmt(n){return 'Rp '+Number(n).toLocaleString('id-ID');}
+async function downloadQR(t){const d=await api('/api/qr/'+t);if(!d.qr)return;const a=document.createElement('a');a.href=d.qr;a.download='QR-Meja-'+t+'.png';a.click();}
+async function addTable(){await api('/api/tables','POST');renderQR();}
+async function removeTable(){if(!confirm('Hapus meja terakhir?'))return;await api('/api/tables/last','DELETE');renderQR();}
 
 init();
 </script>
