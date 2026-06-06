@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Kafe Nusantara — Menu</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Serif+Display&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --bg:#FAF9F6;--card:#FFFFFF;--border:#EBEBEB;
+  --accent:#D85A30;--accent2:#534AB7;--text:#1A1A2E;--muted:#888;
+  --success:#1D9E75;--radius:14px;--font:'DM Sans',sans-serif;--serif:'DM Serif Display',serif;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:100vh;}
+
+/* HEADER */
+.hero{background:var(--accent2);padding:28px 20px 20px;text-align:center;position:relative;overflow:hidden;}
+.hero::before{content:'';position:absolute;inset:0;background:repeating-linear-gradient(45deg,rgba(255,255,255,0.03) 0,rgba(255,255,255,0.03) 1px,transparent 1px,transparent 10px);}
+.hero-name{font-family:var(--serif);font-size:28px;color:#fff;position:relative;}
+.hero-sub{font-size:13px;color:rgba(255,255,255,0.7);margin-top:6px;position:relative;}
+.table-pill{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,0.18);border:1px solid rgba(255,255,255,0.25);border-radius:99px;padding:5px 14px;font-size:12px;color:#fff;margin-top:10px;position:relative;font-weight:500;}
+
+/* CATEGORY TABS */
+.tabs{display:flex;gap:0;overflow-x:auto;background:var(--card);border-bottom:1px solid var(--border);padding:0 16px;scrollbar-width:none;}
+.tabs::-webkit-scrollbar{display:none;}
+.tab{padding:12px 16px;font-size:13px;font-weight:500;color:var(--muted);border-bottom:2px solid transparent;cursor:pointer;white-space:nowrap;transition:all 0.2s;flex-shrink:0;background:none;border-top:none;border-left:none;border-right:none;font-family:var(--font);}
+.tab.active{color:var(--accent);border-bottom-color:var(--accent);}
+
+/* MENU ITEMS */
+.menu-body{padding:16px;display:flex;flex-direction:column;gap:10px;max-width:480px;margin:0 auto;}
+.mi{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:14px 16px;display:flex;align-items:center;gap:14px;transition:border-color 0.15s;}
+.mi:hover{border-color:#ddd;}
+.mi-info{flex:1;min-width:0;}
+.mi-name{font-size:14px;font-weight:500;line-height:1.3;}
+.mi-desc{font-size:12px;color:var(--muted);margin-top:3px;line-height:1.4;}
+.mi-price{font-size:13px;color:var(--accent);font-weight:600;margin-top:6px;}
+.qty-ctrl{display:flex;align-items:center;gap:8px;flex-shrink:0;}
+.qbtn{width:30px;height:30px;border-radius:50%;border:1.5px solid var(--border);background:transparent;cursor:pointer;font-size:18px;display:flex;align-items:center;justify-content:center;color:var(--text);transition:all 0.15s;line-height:1;}
+.qbtn:hover{border-color:var(--accent);color:var(--accent);}
+.qnum{font-size:14px;font-weight:600;min-width:20px;text-align:center;}
+.qnum.has{color:var(--accent);}
+
+/* FOOTER / CART */
+.cart-bar{position:fixed;bottom:0;left:0;right:0;background:var(--card);border-top:1px solid var(--border);padding:12px 16px 20px;box-shadow:0 -4px 20px rgba(0,0,0,0.08);}
+.cart-inner{max-width:480px;margin:0 auto;}
+.cart-summary{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;}
+.cart-count{font-size:12px;color:var(--muted);}
+.cart-total{font-size:16px;font-weight:600;color:var(--text);}
+.notes-inp{width:100%;padding:8px 12px;font-size:13px;border-radius:8px;border:1px solid var(--border);background:var(--bg);color:var(--text);font-family:var(--font);margin-bottom:10px;outline:none;}
+.notes-inp:focus{border-color:var(--accent2);}
+.order-btn{width:100%;padding:14px;background:var(--accent);color:#fff;border:none;border-radius:12px;font-size:15px;font-weight:600;cursor:pointer;font-family:var(--font);transition:background 0.15s;}
+.order-btn:hover{background:#B84A20;}
+.order-btn:disabled{background:#ccc;cursor:not-allowed;}
+.body-pad{padding-bottom:180px;}
+
+/* SUCCESS */
+.success-screen{display:none;position:fixed;inset:0;background:var(--bg);z-index:100;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:32px;}
+.success-screen.show{display:flex;}
+.success-icon{font-size:56px;margin-bottom:16px;}
+.success-title{font-family:var(--serif);font-size:28px;color:var(--success);margin-bottom:8px;}
+.success-sub{font-size:14px;color:var(--muted);line-height:1.6;margin-bottom:24px;}
+.success-order{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:16px;width:100%;max-width:340px;text-align:left;margin-bottom:20px;}
+.success-order-title{font-size:12px;font-weight:500;color:var(--muted);margin-bottom:8px;text-transform:uppercase;letter-spacing:.05em;}
+.success-order-item{font-size:13px;padding:4px 0;border-bottom:1px solid var(--border);}
+.success-order-item:last-child{border-bottom:none;}
+.back-btn{padding:12px 28px;background:transparent;border:1.5px solid var(--accent2);color:var(--accent2);border-radius:10px;font-size:14px;font-weight:500;cursor:pointer;font-family:var(--font);}
+.back-btn:hover{background:var(--accent2);color:#fff;}
+
+/* EMPTY */
+.empty{text-align:center;padding:40px 20px;color:var(--muted);}
+.empty-icon{font-size:40px;margin-bottom:10px;}
+
+/* LOADING */
+.loading{text-align:center;padding:60px 20px;color:var(--muted);}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="hero-name">☕ Kafe Nusantara</div>
+  <div class="hero-sub">Pesan langsung dari meja kamu</div>
+  <div class="table-pill" id="table-pill">🪑 Memuat meja…</div>
+</header>
+
+<nav class="tabs" id="tabs" aria-label="Kategori menu"></nav>
+
+<main class="menu-body body-pad" id="menu-body">
+  <div class="loading">Memuat menu…</div>
+</main>
+
+<footer class="cart-bar" id="cart-bar" style="display:none;" aria-label="Keranjang pesanan">
+  <div class="cart-inner">
+    <div class="cart-summary">
+      <span class="cart-count" id="cart-count">0 item</span>
+      <span class="cart-total" id="cart-total">Rp 0</span>
+    </div>
+    <input type="text" class="notes-inp" id="notes-inp" placeholder="Catatan untuk koki (contoh: tidak pedas, tanpa bawang…)" maxlength="120"/>
+    <button class="order-btn" id="order-btn" onclick="submitOrder()">Pesan sekarang →</button>
+  </div>
+</footer>
+
+<div class="success-screen" id="success-screen" aria-live="assertive" aria-label="Pesanan berhasil">
+  <div class="success-icon">✅</div>
+  <div class="success-title">Pesanan terkirim!</div>
+  <div class="success-sub">Koki sedang memproses pesanan kamu.<br>Harap tunggu sebentar ya.</div>
+  <div class="success-order">
+    <div class="success-order-title">Ringkasan pesanan</div>
+    <div id="success-items"></div>
+  </div>
+  <button class="back-btn" onclick="resetOrder()">Pesan lagi</button>
+</div>
+
+<script>
+// ── State ─────────────────────────────────────────────────────────
+const params = new URLSearchParams(location.search);
+const tableNum = params.get('table') || '1';
+let menuItems = [], qty = {}, activeCategory = 'Semua';
+
+document.getElementById('table-pill').textContent = '🪑 Meja ' + tableNum;
+document.title = 'Menu — Meja ' + tableNum + ' | Kafe Nusantara';
+
+// ── Load menu ─────────────────────────────────────────────────────
+async function loadMenu() {
+  try {
+    const res = await fetch('/api/menu');
+    const all = await res.json();
+    menuItems = all.filter(m => m.active);
+    buildTabs();
+    renderMenu();
+  } catch(e) {
+    document.getElementById('menu-body').innerHTML = '<div class="empty"><div class="empty-icon">⚠️</div><p>Gagal memuat menu.<br>Coba refresh halaman ini.</p></div>';
+  }
+}
+
+// ── Tabs ──────────────────────────────────────────────────────────
+function buildTabs() {
+  const cats = ['Semua', ...new Set(menuItems.map(m => m.cat))];
+  document.getElementById('tabs').innerHTML = cats.map(c =>
+    `<button class="tab${c===activeCategory?' active':''}" onclick="setCategory('${c}')">${c}</button>`
+  ).join('');
+}
+
+function setCategory(cat) {
+  activeCategory = cat;
+  document.querySelectorAll('.tab').forEach(t => t.classList.toggle('active', t.textContent===cat));
+  renderMenu();
+}
+
+// ── Menu render ───────────────────────────────────────────────────
+function renderMenu() {
+  const filtered = activeCategory === 'Semua' ? menuItems : menuItems.filter(m => m.cat === activeCategory);
+  if(!filtered.length) {
+    document.getElementById('menu-body').innerHTML = '<div class="empty"><div class="empty-icon">🍽</div><p>Tidak ada menu di kategori ini.</p></div>';
+    return;
+  }
+  document.getElementById('menu-body').innerHTML = filtered.map(m => {
+    const q = qty[m.id] || 0;
+    return `<div class="mi" id="mi-${m.id}">
+      <div class="mi-info">
+        <div class="mi-name">${m.name}</div>
+        ${m.desc ? `<div class="mi-desc">${m.desc}</div>` : ''}
+        <div class="mi-price">${fmt(m.price)}</div>
+      </div>
+      <div class="qty-ctrl">
+        <button class="qbtn" onclick="changeQty('${m.id}',-1)" aria-label="Kurangi ${m.name}">−</button>
+        <span class="qnum${q>0?' has':''}" id="qn-${m.id}">${q}</span>
+        <button class="qbtn" onclick="changeQty('${m.id}',1)" aria-label="Tambah ${m.name}">+</button>
+      </div>
+    </div>`;
+  }).join('');
+  updateCart();
+}
+
+// ── Qty ───────────────────────────────────────────────────────────
+function changeQty(id, delta) {
+  qty[id] = Math.max(0, (qty[id] || 0) + delta);
+  const el = document.getElementById('qn-'+id);
+  if(el) { el.textContent = qty[id]; el.className = 'qnum' + (qty[id]>0?' has':''); }
+  updateCart();
+}
+
+function updateCart() {
+  const picked = menuItems.filter(m => (qty[m.id]||0) > 0);
+  const total = picked.reduce((s,m) => s + m.price * qty[m.id], 0);
+  const count = picked.reduce((s,m) => s + qty[m.id], 0);
+  const bar = document.getElementById('cart-bar');
+  if(count > 0) {
+    bar.style.display = '';
+    document.getElementById('cart-count').textContent = count + ' item';
+    document.getElementById('cart-total').textContent = fmt(total);
+  } else {
+    bar.style.display = 'none';
+  }
+}
+
+// ── Submit order ──────────────────────────────────────────────────
+async function submitOrder() {
+  const picked = menuItems.filter(m => (qty[m.id]||0) > 0);
+  if(!picked.length) return;
+
+  const btn = document.getElementById('order-btn');
+  btn.disabled = true; btn.textContent = 'Mengirim pesanan…';
+
+  const items = picked.map(m => ({ id: m.id, name: m.name, price: m.price, qty: qty[m.id] }));
+  const notes = document.getElementById('notes-inp').value.trim();
+
+  try {
+    const res = await fetch('/api/orders', {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({ tableNum, items, notes })
+    });
+    if(!res.ok) throw new Error('Gagal');
+
+    document.getElementById('success-items').innerHTML =
+      items.map(i => `<div class="success-order-item">${i.qty}× ${i.name} — ${fmt(i.price * i.qty)}</div>`).join('') +
+      (notes ? `<div class="success-order-item" style="color:#888;font-style:italic;">📝 ${notes}</div>` : '');
+
+    document.getElementById('success-screen').classList.add('show');
+  } catch(e) {
+    alert('Gagal mengirim pesanan. Pastikan koneksi internet kamu aktif dan coba lagi.');
+    btn.disabled = false; btn.textContent = 'Pesan sekarang →';
+  }
+}
+
+function resetOrder() {
+  qty = {};
+  document.getElementById('notes-inp').value = '';
+  document.getElementById('success-screen').classList.remove('show');
+  document.getElementById('order-btn').disabled = false;
+  document.getElementById('order-btn').textContent = 'Pesan sekarang →';
+  renderMenu();
+}
+
+function fmt(n){return 'Rp '+Number(n).toLocaleString('id-ID');}
+
+loadMenu();
+</script>
+</body>
+</html>
