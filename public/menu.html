@@ -207,22 +207,37 @@ async function submitOrder() {
   const items = picked.map(m => ({ id: m.id, name: m.name, price: m.price, qty: qty[m.id] }));
   const notes = document.getElementById('notes-inp').value.trim();
 
-  try {
-    const res = await fetch('/api/orders', {
-      method: 'POST',
-      headers: {'Content-Type':'application/json'},
-      body: JSON.stringify({ tableNum, items, notes })
-    });
-    if(!res.ok) throw new Error('Gagal');
+  // Buat idempotency key unik per sesi pesan — mencegah order double jika ada retry
+  const idempotencyKey = `${tableNum}-${Date.now()}-${Math.random().toString(36).slice(2,8)}`;
 
-    document.getElementById('success-items').innerHTML =
-      items.map(i => `<div class="success-order-item">${i.qty}× ${i.name} — ${fmt(i.price * i.qty)}</div>`).join('') +
-      (notes ? `<div class="success-order-item" style="color:#888;font-style:italic;">📝 ${notes}</div>` : '');
+  // Coba kirim maksimal 2x jika gagal, dengan jeda 2 detik
+  let attempts = 0;
+  while(attempts < 2) {
+    try {
+      const res = await fetch('/api/orders', {
+        method: 'POST',
+        headers: {'Content-Type':'application/json'},
+        body: JSON.stringify({ tableNum, items, notes, idempotencyKey })
+      });
+      if(!res.ok) throw new Error('Gagal');
 
-    document.getElementById('success-screen').classList.add('show');
-  } catch(e) {
-    alert('Gagal mengirim pesanan. Pastikan koneksi internet kamu aktif dan coba lagi.');
-    btn.disabled = false; btn.textContent = 'Pesan sekarang →';
+      document.getElementById('success-items').innerHTML =
+        items.map(i => `<div class="success-order-item">${i.qty}× ${i.name} — ${fmt(i.price * i.qty)}</div>`).join('') +
+        (notes ? `<div class="success-order-item" style="color:#888;font-style:italic;">📝 ${notes}</div>` : '');
+
+      document.getElementById('success-screen').classList.add('show');
+      return; // sukses, keluar dari loop
+    } catch(e) {
+      attempts++;
+      if(attempts < 2) {
+        btn.textContent = 'Mencoba ulang…';
+        await new Promise(r => setTimeout(r, 2000));
+      } else {
+        alert('Gagal mengirim pesanan. Cek koneksi internet dan coba lagi.');
+        btn.disabled = false;
+        btn.textContent = 'Pesan sekarang →';
+      }
+    }
   }
 }
 
